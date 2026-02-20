@@ -5,143 +5,195 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0f172a" />
   <title>Prima di cliccare, fermati.</title>
-  <meta name="description" content="Progetto educativo sulla consapevolezza digitale e sui rischi dei link sconosciuti." />
+  <meta name="description" content="Progetto educativo: diffida di link e QR code di cui non conosci la fonte." />
 
   <style>
     :root{
       --bg:#0f172a;
-      --card:rgba(255,255,255,.07);
+      --card:rgba(255,255,255,.08);
+      --border:rgba(255,255,255,.14);
       --text:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.75);
+      --muted:rgba(255,255,255,.76);
+      --muted2:rgba(255,255,255,.56);
       --accent:#38bdf8;
-      --shadow:0 20px 60px rgba(0,0,0,.35);
+      --shadow:0 18px 55px rgba(0,0,0,.38);
       --radius:20px;
-      --max:760px;
+
+      /* Spaziature fluide */
+      --pad-page: clamp(16px, 3.5vw, 28px);
+      --pad-card: clamp(18px, 4.2vw, 34px);
+      --gap: clamp(12px, 2.6vw, 18px);
     }
 
     *{ box-sizing:border-box; }
+    html, body { height: 100%; }
 
     body{
       margin:0;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       color:var(--text);
       line-height:1.6;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px 16px;
-      overflow:hidden;
-      background: var(--bg);
+      background:var(--bg);
+      overflow-x:hidden;
     }
 
-    /* Sfondo dinamico morbido */
+    /* Sfondo dinamico morbido (non invasivo) */
     body::before{
       content:"";
       position:fixed;
-      width:140%;
-      height:140%;
-      top:-20%;
-      left:-20%;
+      inset:-30%;
       background:
-        radial-gradient(circle at 20% 30%, rgba(56,189,248,.25), transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(99,102,241,.20), transparent 50%),
-        radial-gradient(circle at 50% 90%, rgba(236,72,153,.15), transparent 50%);
-      animation: moveBackground 18s ease-in-out infinite alternate;
+        radial-gradient(closest-side at 18% 25%, rgba(56,189,248,.22), transparent 62%),
+        radial-gradient(closest-side at 82% 72%, rgba(99,102,241,.18), transparent 62%),
+        radial-gradient(closest-side at 50% 92%, rgba(236,72,153,.12), transparent 62%);
+      filter: saturate(1.05);
+      transform: translate3d(0,0,0);
+      animation: moveBg 18s ease-in-out infinite alternate;
       z-index:-1;
     }
 
-    @keyframes moveBackground{
-      0%{
-        transform:translate(0px,0px) scale(1);
-      }
-      100%{
-        transform:translate(40px,-30px) scale(1.05);
-      }
+    @keyframes moveBg{
+      from { transform: translate3d(0,0,0) scale(1); }
+      to   { transform: translate3d(34px,-26px,0) scale(1.04); }
+    }
+
+    /* Rispetta chi preferisce meno animazioni */
+    @media (prefers-reduced-motion: reduce){
+      body::before{ animation:none; }
+    }
+
+    .wrap{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: var(--pad-page);
     }
 
     .container{
       width:100%;
-      max-width:var(--max);
+      max-width: 920px; /* desktop */
     }
 
     .card{
-      background:var(--card);
-      border:1px solid rgba(255,255,255,.15);
-      border-radius:var(--radius);
-      padding:30px;
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(10px);
+      background: linear-gradient(180deg, var(--card), rgba(255,255,255,.05));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: var(--pad-card);
+      backdrop-filter: blur(10px);
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--muted);
+      font-size: 14px;
+      user-select:none;
+      margin-bottom: clamp(10px, 2vw, 14px);
+    }
+
+    .dot{
+      width:10px;
+      height:10px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(56,189,248,.12);
+      flex:0 0 auto;
     }
 
     h1{
-      margin:0 0 14px;
-      font-size:28px;
-      letter-spacing:.3px;
+      margin:0 0 var(--gap);
+      font-size: clamp(22px, 5.2vw, 34px); /* smartphone → desktop */
+      letter-spacing: .2px;
+      line-height:1.15;
     }
 
     p{
-      margin:0 0 16px;
-      color:var(--muted);
-      font-size:17px;
+      margin: 0 0 var(--gap);
+      color: var(--muted);
+      font-size: clamp(15px, 4.2vw, 18px);
     }
 
     ul{
-      margin:0 0 20px 20px;
-      color:var(--muted);
-      font-size:16px;
+      margin: 0 0 var(--gap);
+      padding-left: 1.15em;
+      color: var(--muted);
+      font-size: clamp(15px, 4.1vw, 17px);
     }
 
+    li{ margin: 8px 0; }
+
     .highlight{
-      margin-top:20px;
-      padding:18px;
-      border-left:4px solid var(--accent);
-      background:rgba(56,189,248,.15);
-      border-radius:12px;
-      font-size:17px;
-      font-weight:500;
+      margin-top: calc(var(--gap) + 2px);
+      padding: clamp(14px, 3.6vw, 18px);
+      border-left: 4px solid var(--accent);
+      background: rgba(56,189,248,.14);
+      border-radius: 14px;
+      font-size: clamp(15px, 4.2vw, 18px);
+      font-weight: 600;
+      line-height:1.35;
     }
 
     footer{
-      margin-top:24px;
-      font-size:13px;
-      color:rgba(255,255,255,.55);
+      margin-top: calc(var(--gap) + 8px);
+      color: var(--muted2);
+      font-size: clamp(12px, 3.4vw, 13px);
+    }
+
+    /* Migliora il layout su schermi molto piccoli (es. 320px) */
+    @media (max-width: 360px){
+      .eyebrow{ padding: 9px 10px; font-size:13px; }
+      li{ margin: 6px 0; }
+    }
+
+    /* Su tablet/desktop aumenta la “ariosità” */
+    @media (min-width: 768px){
+      .card{ padding: clamp(28px, 3vw, 40px); }
+      .container{ max-width: 860px; }
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <div class="card">
-      <h1>Hai appena scansionato un QR code.</h1>
+  <main class="wrap">
+    <div class="container">
+      <section class="card" aria-label="Messaggio educativo sulla sicurezza digitale">
+        <div class="eyebrow"><span class="dot" aria-hidden="true"></span>Progetto educativo</div>
 
-      <p>
-        Ti sei chiesto chi lo ha creato?
-      </p>
+        <h1>Hai appena scansionato un QR code.</h1>
 
-      <p>
-        Un QR code o un link possono essere generati da chiunque.
-        Non sempre dietro c’è un’organizzazione affidabile.
-      </p>
+        <p>Ti sei chiesto chi lo ha creato?</p>
 
-      <ul>
-        <li>Potresti finire su una pagina che imita un sito ufficiale</li>
-        <li>Potrebbero chiederti dati personali o password</li>
-        <li>Potrebbero provare a farti scaricare qualcosa</li>
-        <li>Potrebbero manipolare informazioni per convincerti</li>
-      </ul>
+        <p>
+          Un QR code o un link possono essere generati da chiunque.
+          Se non conosci con certezza l’autore, stai entrando in uno spazio di cui non sai nulla.
+        </p>
 
-      <div class="highlight">
-        La prossima volta diffida dei link sconosciuti.
-        Dietro un link può nascondersi chiunque.
-        Fermati un secondo prima di cliccare.
-      </div>
+        <ul>
+          <li>Potresti finire su una pagina che imita un sito ufficiale</li>
+          <li>Potrebbero chiederti dati personali o password</li>
+          <li>Potrebbero spingerti a scaricare qualcosa</li>
+          <li>Potrebbero manipolare informazioni per convincerti</li>
+        </ul>
 
-      <footer>
-        Questa pagina fa parte di un progetto educativo sulla consapevolezza digitale.
-        Nessun dato viene raccolto o memorizzato.
-      </footer>
+        <div class="highlight">
+          La prossima volta diffida dei link sconosciuti.<br />
+          Dietro un link può nascondersi chiunque.<br />
+          Fermati un secondo prima di cliccare.
+        </div>
+
+        <footer>
+          Questa pagina fa parte di un progetto educativo sulla consapevolezza digitale.
+          Nessun dato viene raccolto o memorizzato.
+        </footer>
+      </section>
     </div>
-  </div>
+  </main>
 </body>
 </html>
