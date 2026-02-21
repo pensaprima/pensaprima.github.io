@@ -11,7 +11,6 @@
       --muted:rgba(255,255,255,.85);
       --accent:#00e5ff;
       --radius:20px;
-
       --danger:#ff3b3b;
     }
 
@@ -27,7 +26,6 @@
       padding:60px 20px 40px;
       color:var(--text);
       text-align:center;
-
       background:
         linear-gradient(135deg, #0f172a 0%, #1e3a8a 40%, #6d28d9 100%);
       overflow:hidden;
@@ -76,7 +74,7 @@
       font-size:clamp(16px,4.5vw,18px);
     }
 
-    /* 🔴 FERMATI! */
+    /* 🔴 FERMATI */
     .danger{
       color:var(--danger);
       font-weight:800;
@@ -84,6 +82,15 @@
       letter-spacing:1px;
       font-size:1.12em;
       text-shadow:0 0 8px rgba(255,59,59,.45);
+    }
+
+    /* 🔴 Punto esclamativo separato */
+    .danger-exclamation{
+      color:var(--danger);
+      font-weight:900;
+      font-size:1.25em;        /* leggermente più grande */
+      margin-left:4px;         /* piccolo distacco */
+      text-shadow:0 0 10px rgba(255,59,59,.6);
     }
 
     /* 🟡 chiunque */
@@ -116,7 +123,8 @@
     <p>Ma sai davvero chi ti ha portato qui?</p>
 
     <div class="strong">
-      Se non conosci la fonte, <span class="danger">FERMATI!</span><br>
+      Se non conosci la fonte, 
+      <span class="danger">FERMATI</span><span class="danger-exclamation">!</span><br>
       Dietro un link può nascondersi <span class="warning">chiunque</span>.<br>
       <span class="underline-accent">Pensa</span> prima di cliccare.
     </div>
