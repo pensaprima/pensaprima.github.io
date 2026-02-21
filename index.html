@@ -11,6 +11,9 @@
       --muted:rgba(255,255,255,.85);
       --accent:#00e5ff;
       --radius:20px;
+
+      --danger:#ff3b3b;
+      --warning:#ffd600;
     }
 
     *{ box-sizing:border-box; }
@@ -20,9 +23,9 @@
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       min-height:100vh;
       display:flex;
-      align-items:flex-start;          /* 👈 non più centrato verticalmente */
+      align-items:flex-start;
       justify-content:center;
-      padding:60px 20px 40px;          /* 👈 più spazio sopra */
+      padding:60px 20px 40px;
       color:var(--text);
       text-align:center;
 
@@ -31,7 +34,6 @@
       overflow:hidden;
     }
 
-    /* pattern leggero */
     body::before{
       content:"";
       position:fixed;
@@ -75,6 +77,33 @@
       font-size:clamp(16px,4.5vw,18px);
     }
 
+    /* 🔴 FERMATI */
+    .danger{
+      color:var(--danger);
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      text-shadow:0 0 10px rgba(255,59,59,.6);
+    }
+
+    /* 🟡 chiunque */
+    .warning{
+      color:#000;
+      background:var(--warning);
+      padding:2px 6px;
+      border-radius:6px;
+      font-weight:700;
+    }
+
+    /* ✏️ Pensa */
+    .underline-accent{
+      text-decoration: underline;
+      text-decoration-thickness: 3px;
+      text-decoration-color: var(--accent);
+      text-underline-offset: 4px;
+      font-weight:700;
+    }
+
     footer{
       margin-top:22px;
       font-size:13px;
@@ -90,16 +119,16 @@
     <p>Ma sai davvero chi ti ha portato qui?</p>
 
     <div class="strong">
-      Se non conosci la fonte, fermati.<br>
-      Dietro un link può nascondersi chiunque.<br>
-      Pensa prima di cliccare.
+      Se non conosci la fonte, <span class="danger">FERMATI</span>.<br>
+      Dietro un link può nascondersi <span class="warning">chiunque</span>.<br>
+      <span class="underline-accent">Pensa</span> prima di cliccare.
     </div>
 
-<footer>
-  Progetto educativo sulla consapevolezza digitale.
-  <br><br>
-  Nessun dato viene raccolto.
-</footer>
+    <footer>
+      Progetto educativo sulla consapevolezza digitale.
+      <br><br>
+      Nessun dato viene raccolto.
+    </footer>
   </div>
 </body>
 </html>
